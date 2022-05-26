@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"ginDemo/testGin/customR"
-	"ginDemo/testGin/testCookie"
+	"ginDemo/testGin/testOther"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +13,8 @@ func main() {
 	//testRender.TestRender()
 	//testMiddleWare.TestMiddleWare()
 	//testCookie.TestCookie()
-	testCookie.TESTSaveSession()
+	//testCookie.TESTSaveSession()
+	testOther.TestLogger()
 }
 
 /***********************测试路由功能********************************/
