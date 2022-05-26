@@ -12,7 +12,8 @@ func main() {
 	//testDataFmt.TestDataFMT()
 	//testRender.TestRender()
 	//testMiddleWare.TestMiddleWare()
-	testCookie.TestCookie()
+	//testCookie.TestCookie()
+	testCookie.TESTSaveSession()
 }
 
 /***********************测试路由功能********************************/
