@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"ginDemo/testGin/customR"
-	"ginDemo/testGin/testMiddleWare"
+	"ginDemo/testGin/testCookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,7 +11,8 @@ func main() {
 	//testFileRouter()
 	//testDataFmt.TestDataFMT()
 	//testRender.TestRender()
-	testMiddleWare.TestMiddleWare()
+	//testMiddleWare.TestMiddleWare()
+	testCookie.TestCookie()
 }
 
 /***********************测试路由功能********************************/
