@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"ginDemo/testGin/customR"
-	"ginDemo/testGin/testRender"
+	"ginDemo/testGin/testMiddleWare"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	//testFileRouter()
 	//testDataFmt.TestDataFMT()
-	testRender.TestRender()
+	//testRender.TestRender()
+	testMiddleWare.TestMiddleWare()
 }
 
 /***********************测试路由功能********************************/
