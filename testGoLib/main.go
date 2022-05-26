@@ -1,5 +1,7 @@
 package main
 
+import "ginDemo/testGoLib/lib/testTime"
+
 func main() {
 	//lib.TestPrint()
 	//lib.TestFPrint()
@@ -7,4 +9,5 @@ func main() {
 	//err := fmt.Errorf("this is error msg")
 	//fmt.Println(err)
 	//testFmt.TestScan()
+	testTime.TimeLib()
 }
