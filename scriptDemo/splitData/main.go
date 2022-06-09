@@ -1,5 +1,15 @@
 package main
 
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"io/ioutil"
+	"os"
+	"strings"
+	"time"
+)
+
 /*
 1. 根据文件名分割:  动作 - 用户 - 是否连续
 eg: cd x l =>  侧蹲 - x - 连续
@@ -17,6 +27,99 @@ eg: dd-hh-mm 文件夹名格式
 
 */
 
-func main() {
+var (
+	isTest    bool = true
+	rootDir   string
+	sourceDir string = "./source-06-08"
+)
 
+func main() {
+	createRootDir()
+	getFileList()
+
+	return
+
+}
+
+func getFileList() {
+	files, _ := ioutil.ReadDir(sourceDir)
+	for _, file := range files {
+		fmtFile(file)
+
+	}
+}
+func fmtFile(info os.FileInfo) {
+	// 创建文件
+	filePrefix := strings.ReplaceAll(info.Name(), " ", "")
+	filePrefix = filePrefix[0 : len(filePrefix)-4]
+	var user string
+
+	if filePrefix[2:3] == "s" {
+		user = "su"
+	} else if filePrefix[2:3] == "x" {
+		user = "xia"
+	} else if filePrefix[2:3] == "w" {
+		user = "wang"
+	}
+	outputFileName := rootDir + "/" + user + "-" + strings.ToLower(filePrefix[0:2])
+	if len(filePrefix) > 3 {
+		outputFileName += "-lianxu.log"
+	} else {
+		outputFileName += ".log"
+	}
+
+	filePath := sourceDir + "/" + info.Name()
+
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	buf := bufio.NewReader(file)
+	for {
+		line, err := buf.ReadString('\n')
+		line = strings.TrimSpace(line)
+		if strings.Contains(line, "(0x) 03-00-00-02-08-00-00-04-02") {
+			hexStr := line[len(line)-77 : len(line)]
+		} else {
+			return
+		}
+
+		if err != nil {
+			if err == io.EOF {
+				//fmt.Println(filePath, "文件读取完成")
+				break
+			} else {
+				fmt.Println(filePath, "文件读取错误")
+				return
+
+			}
+		}
+	}
+
+}
+
+func returnXYZ() {
+
+}
+func hexToInt(value string) int {
+	var result int = 0
+
+	for _, v := range value {
+		hexDigit := hex.
+	}
+	return result
+}
+
+// 创建顶部目录
+func createRootDir() {
+	currentDate := time.Now()
+	if isTest {
+		rootDir, _ = os.Getwd()
+	} else {
+		rootDir, _ = os.Executable()
+	}
+	rootDir += "/" + fmt.Sprintf("%02d", currentDate.Month()) + "-" + fmt.Sprintf("%02d", currentDate.Day())
+	os.Mkdir(rootDir, os.ModePerm)
 }
