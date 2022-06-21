@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -30,22 +31,31 @@ eg: dd-hh-mm 文件夹名格式
 var (
 	isTest    bool = true
 	rootDir   string
-	sourceDir string = "./source-06-08"
+	sourceDir string = "./"
 )
 
 func main() {
-	createRootDir()
-	getFileList()
-
-	return
-
+	fmtFiles()
 }
 
+func fmtFiles() {
+	fmt.Println(time.Now())
+	createRootDir()
+	getFileList()
+	fmt.Println("运行结束")
+	fmt.Println(time.Now())
+}
+
+//0.041813
+//0.056368
 func getFileList() {
 	files, _ := ioutil.ReadDir(sourceDir)
 	for _, file := range files {
-		fmtFile(file)
+		fp := file
+		if strings.HasSuffix(fp.Name(), "txt") {
+			go fmtFile(fp)
 
+		}
 	}
 }
 func fmtFile(info os.FileInfo) {
@@ -71,10 +81,19 @@ func fmtFile(info os.FileInfo) {
 	filePath := sourceDir + "/" + info.Name()
 
 	file, err := os.OpenFile(filePath, os.O_RDWR, 0666)
+
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
+
+	os.Create(outputFileName)
+	writeFile, wErr := os.OpenFile(outputFileName, os.O_RDWR|os.O_APPEND, 0666)
+	if wErr != nil {
+		panic(wErr)
+	}
+	defer writeFile.Close()
+	write := bufio.NewWriter(writeFile)
 
 	buf := bufio.NewReader(file)
 	for {
@@ -82,9 +101,22 @@ func fmtFile(info os.FileInfo) {
 		line = strings.TrimSpace(line)
 		if strings.Contains(line, "(0x) 03-00-00-02-08-00-00-04-02") {
 			hexStr := line[len(line)-77 : len(line)]
-		} else {
-			return
+
+			x := returnXYZ(hexToInt(strings.Split(hexStr, "-")[10] + strings.Split(hexStr, "-")[9]))
+			x1 := returnXYZ(hexToInt(strings.Split(hexStr, "-")[16] + strings.Split(hexStr, "-")[15]))
+
+			y := returnXYZ(hexToInt(strings.Split(hexStr, "-")[12] + strings.Split(hexStr, "-")[11]))
+
+			y1 := returnXYZ(hexToInt(strings.Split(hexStr, "-")[18] + strings.Split(hexStr, "-")[17]))
+
+			z := returnXYZ(hexToInt(strings.Split(hexStr, "-")[14] + strings.Split(hexStr, "-")[13]))
+			z1 := returnXYZ(hexToInt(strings.Split(hexStr, "-")[20] + strings.Split(hexStr, "-")[19]))
+
+			write.WriteString("x:" + strconv.FormatInt(x, 10) + ",y:" + strconv.FormatInt(y, 10) + ",z:" + strconv.FormatInt(z, 10) + "\n")
+			write.WriteString("x:" + strconv.FormatInt(x1, 10) + ",y:" + strconv.FormatInt(y1, 10) + ",z:" + strconv.FormatInt(z1, 10) + "\n")
+
 		}
+		write.Flush()
 
 		if err != nil {
 			if err == io.EOF {
@@ -100,15 +132,26 @@ func fmtFile(info os.FileInfo) {
 
 }
 
-func returnXYZ() {
-
-}
-func hexToInt(value string) int {
-	var result int = 0
-
-	for _, v := range value {
-		hexDigit := hex.
+func returnXYZ(value int64) int64 {
+	if value <= 32767 {
+		return value
+	} else {
+		var result int64
+		str := strconv.FormatInt(value, 2)
+		tempStr := ""
+		for i := 0; i < len(str); i++ {
+			if str[i:i+1] == "1" {
+				tempStr += "0"
+			} else {
+				tempStr += "1"
+			}
+		}
+		result, _ = strconv.ParseInt(tempStr, 2, 32)
+		return -result
 	}
+}
+func hexToInt(value string) int64 {
+	result, _ := strconv.ParseInt(value, 16, 32)
 	return result
 }
 
@@ -119,7 +162,27 @@ func createRootDir() {
 		rootDir, _ = os.Getwd()
 	} else {
 		rootDir, _ = os.Executable()
+		rootDir = rootDir[0 : len(rootDir)-5]
 	}
-	rootDir += "/" + fmt.Sprintf("%02d", currentDate.Month()) + "-" + fmt.Sprintf("%02d", currentDate.Day())
+	sourceDir = rootDir + "/" + fmt.Sprintf("%02d", currentDate.Month()) + "-" + fmt.Sprintf("%02d", currentDate.Day())
+	rootDir += "/output-" + fmt.Sprintf("%02d", currentDate.Month()) + "-" + fmt.Sprintf("%02d", currentDate.Day())
+	fmt.Println("从中读取", sourceDir, ", 写入到", rootDir)
 	os.Mkdir(rootDir, os.ModePerm)
+}
+
+func textHex() {
+
+	hexStr := "03-00-00-02-08-00-00-04-02-00-00-07-00-05-FF-00-00-06-00-07-FF-00-00-00-00-00"
+	x := returnXYZ(hexToInt(strings.Split(hexStr, "-")[10] + strings.Split(hexStr, "-")[9]))
+	x1 := returnXYZ(hexToInt(strings.Split(hexStr, "-")[16] + strings.Split(hexStr, "-")[15]))
+
+	y := returnXYZ(hexToInt(strings.Split(hexStr, "-")[12] + strings.Split(hexStr, "-")[11]))
+
+	y1 := returnXYZ(hexToInt(strings.Split(hexStr, "-")[18] + strings.Split(hexStr, "-")[17]))
+
+	z := returnXYZ(hexToInt(strings.Split(hexStr, "-")[14] + strings.Split(hexStr, "-")[13]))
+	z1 := returnXYZ(hexToInt(strings.Split(hexStr, "-")[20] + strings.Split(hexStr, "-")[19]))
+
+	fmt.Println(x, y, z)
+	fmt.Println(x1, y1, z1)
 }
