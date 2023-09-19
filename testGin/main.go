@@ -7,6 +7,7 @@ import (
 	"ginDemo/testGin/noSql"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/spf13/viper"
 	"net/http"
 )
 
@@ -23,8 +24,8 @@ func main() {
 	//hashInBytes := hash.Sum(nil)
 	//hashInStr := hex.EncodeToString(hashInBytes)
 	//fmt.Println(hashInStr)
-	r := Router()
-	r.Run(":8989")
+	//r := Router()
+	//r.Run(":8989")
 }
 
 /***********************测试路由功能********************************/
@@ -68,4 +69,25 @@ func Router() *gin.Engine {
 	//s.GET("/select", util.Get)
 
 	return r
+}
+
+func testViper() {
+	viper.SetDefault("filePath", "./")
+
+}
+
+type tester interface {
+	delRoot()
+	addRoot()
+}
+type test struct {
+}
+
+func sourceCode() {
+	t := test{}
+	if _, ok := interface{}(t).(tester); ok {
+
+	} else {
+
+	}
 }

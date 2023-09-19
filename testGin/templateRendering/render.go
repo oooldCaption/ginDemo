@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func main() {
+func test() {
 	r := gin.Default()
 
 	// 设置模板文件的路径
