@@ -8,7 +8,91 @@ import (
 func RunDay7() {
 	//day7Ex1()
 	//fmt.Println(test("qwertyuio", "qwe"))
-	fmt.Println(test("a", "a"))
+	//fmt.Println(test("a", "a"))
+	//fmt.Println(twoSum([]int{1, 2, 3, 4, 5}, 6))
+	//fmt.Println(twoSum([]int{1, 2, 3, 4, 5}, 9))
+	fmt.Println(lengthOfLongestSubstring("asdfghjklkkl"))
+	fmt.Println(lengthOfLongestSubstring("abcdabc"))
+}
+
+// 滑动窗口解决:
+// 滑动窗口是一个 解决数组/字符串 问题常见的方案;
+// 使用 两个指针 left, right; 作为当前 子数组/子字符串的开始和结束;
+// 随着问题的 解 进行滑动.
+func lengthOfLongestSubstring(s string) int {
+	n := len(s)
+	if n == 0 {
+		return 0
+	}
+
+	charMap := make(map[byte]int)
+	maxLength := 0
+	left, right := 0, 0
+
+	for right = 0; right < n; right++ {
+		// 如果 字符串出现重复, 移动 left 指针
+		if _, ok := charMap[s[right]]; ok {
+			left = max(charMap[s[right]]+1, left)
+		}
+		// 更新最长子串长度
+		maxLength = max(maxLength, right-left+1)
+		charMap[s[right]] = right
+	}
+	return maxLength
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// 解题思路:
+// 1. 循环目标数组
+// 2. 将遍历结果存储到 map 中, 然后再 map 中寻找给定值的另一个数字
+// 3. 存在的话返回这两个数字的下标
+func twoSum(nums []int, target int) []int {
+	m := make(map[int]int)
+	for i := 0; i < len(nums); i++ {
+		fmt.Println(m)
+		another := target - nums[i]
+		if _, ok := m[another]; ok {
+			return []int{m[another], i}
+		}
+		m[nums[i]] = i
+	}
+	fmt.Println(m)
+	return nil
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func addTwoNumber(l1, l2 *ListNode) *ListNode {
+
+	head := &ListNode{Val: 0}
+	n1, n2, carry, current := 0, 0, 0, head
+	for l1 != nil || l2 != nil || carry != 0 {
+		if l1 == nil {
+			n1 = 0
+		} else {
+			n1 = l1.Val
+			l1 = l1.Next
+		}
+		if l2 == nil {
+			n2 = 0
+		} else {
+			n2 = l2.Val
+			l2 = l2.Next
+		}
+		current.Next = &ListNode{Val: (n1 + n2 + carry) % 10}
+		current = current.Next
+		carry = (n1 + n2 + carry) / 10
+	}
+	return head.Next
 }
 
 func test(haystack string, needle string) int {
