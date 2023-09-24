@@ -32,6 +32,10 @@ func lengthOfLongestSubstring(s string) int {
 	for right = 0; right < n; right++ {
 		// 如果 字符串出现重复, 移动 left 指针
 		if _, ok := charMap[s[right]]; ok {
+			//考虑这个字符串："tmmzuxt"。
+			//当 right 指向第二个 't' 时，charMap 会告诉我们第一个 't' 的索引是 0。但是此时 left 已经在索引 3，指向 'z' 了。
+			//如果我们仅仅将 left 设置为 charMap['t'] + 1 = 1，left 会回到索引 1，这并不是我们想要的。
+			//我们不希望 left 往回移动，因为这样会包含其他的重复字符。
 			left = max(charMap[s[right]]+1, left)
 		}
 		// 更新最长子串长度
@@ -64,35 +68,6 @@ func twoSum(nums []int, target int) []int {
 	}
 	fmt.Println(m)
 	return nil
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
-func addTwoNumber(l1, l2 *ListNode) *ListNode {
-
-	head := &ListNode{Val: 0}
-	n1, n2, carry, current := 0, 0, 0, head
-	for l1 != nil || l2 != nil || carry != 0 {
-		if l1 == nil {
-			n1 = 0
-		} else {
-			n1 = l1.Val
-			l1 = l1.Next
-		}
-		if l2 == nil {
-			n2 = 0
-		} else {
-			n2 = l2.Val
-			l2 = l2.Next
-		}
-		current.Next = &ListNode{Val: (n1 + n2 + carry) % 10}
-		current = current.Next
-		carry = (n1 + n2 + carry) / 10
-	}
-	return head.Next
 }
 
 func test(haystack string, needle string) int {
