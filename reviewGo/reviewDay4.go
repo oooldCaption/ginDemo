@@ -11,6 +11,10 @@ type person struct {
 	age  int
 }
 
+func (p person) run() {
+	fmt.Println("跑得很快", p.name)
+}
+
 func structCompare() {
 	s1 := person{
 		name: "oldSu",

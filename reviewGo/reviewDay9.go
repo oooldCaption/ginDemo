@@ -1,9 +1,12 @@
 package reviewGo
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func RunDay9() {
-	day9Ex3()
+	day9Ex5()
 }
 
 func longestPalindrome(s string) string {
@@ -97,5 +100,28 @@ func day9Ex3() {
 	p := Ow{name: "laowang"}
 	p.cate(d)
 	p.cate(c)
+}
 
+func day9Ex4() {
+	p := person{
+		name: "33",
+		age:  0,
+	}
+	p.run()
+}
+
+func day9Ex5() {
+	go show("test")
+	//show("j")
+}
+
+func show(str string) {
+	for i := 0; i < 5; i++ {
+		fmt.Println("msg: %v \n", str)
+		time.Sleep(time.Millisecond * 100)
+	}
+}
+
+func testGIF() {
+	//gif.Decode()
 }
