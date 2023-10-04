@@ -9,7 +9,36 @@ import (
 func RunDay10() {
 	//fmt.Println(maxValue[int](1, 3))
 	//fmt.Println(maxValue(1.2, 1.4))
-	testData()
+	//testData()
+	day10Ex3()
+}
+func day10Ex3() {
+	v := make(chan string)
+	<-v
+	fmt.Println("this end")
+
+}
+
+func day10Ex2() {
+	var sw sync.WaitGroup
+	r := make(chan struct{})
+
+	for i := 0; i < 10; i++ {
+		sw.Add(1)
+		go func(id int) {
+			defer sw.Done()
+			<-r
+			println(id)
+		}(i)
+	}
+	close(r)
+	sw.Wait()
+}
+func day10Ex1() {
+	go func() {
+		defer fmt.Println("协程进行结束")
+	}()
+	defer fmt.Println("main end")
 }
 
 func maxValue[T cmp.Ordered](x, y T) T {

@@ -6,6 +6,6 @@ import (
 
 func main() {
 
-	reviewGo.RunDay10()
+	reviewGo.RunDay11()
 
 }
