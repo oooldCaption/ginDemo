@@ -4,13 +4,48 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
 	"math"
+	"net/http"
 	"unicode/utf8"
 )
 
 func RunDay12() {
 	//creatTable()
-	day12Ex2()
+	day12Ex3()
+}
+
+func day12Ex3() {
+	//a := [3]int{1, 2, 3}
+	//println(len(a))
+	//println(cap(a))
+
+	s := make([]int, 0, 0)
+	s = append(s, 1, 2, 3)
+
+	ss := s[1:2]
+	// 增加后 修改了 ss 的结构, 这时候不与 s 共享结构
+	//ss = append(s, 1099)
+	ss[0] = 99
+
+	for _, i2 := range s {
+		println(i2)
+	}
+
+	//println(len(s))
+	//println(cap(s))
+	//println(s[:1])
+	//println(s[1:2])
+
+}
+
+func simpleWeb() {
+	// 官方 demo;
+	helloHandler := func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Hello, %s!\n", req.URL.Path[1:])
+	}
+	http.HandleFunc("/hello", helloHandler)
+	log.Fatal(http.ListenAndServe(":9999", nil))
 }
 
 func day12Ex1() {
