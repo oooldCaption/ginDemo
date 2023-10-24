@@ -7,12 +7,27 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"strconv"
 	"unicode/utf8"
 )
 
 func RunDay12() {
 	//creatTable()
-	day12Ex3()
+	day12Ex5()
+}
+
+func day12Ex5() {
+
+	var i1 = 999
+	fmt.Printf("result: %T ,value:%s \n", strconv.FormatInt(int64(i1), 10), strconv.FormatInt(int64(i1), 10))
+
+}
+
+func day12Ex4() {
+	var num1 int64 = 9999
+	var num2 uint8 = uint8(num1)
+	print(num2)
+	print(9999 % 128)
 }
 
 func day12Ex3() {
