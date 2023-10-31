@@ -2,6 +2,7 @@ package reviewGo
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -29,6 +30,14 @@ func closure() func() string {
 	}
 }
 
+// 闭包 就是 一个函数 和 其相关的引用环境 组成的整体
+/*
+一种不严谨地解释:
+可以把 闭包 当做一个类
+函数是 操作
+引用的环境 是字段
+进行初始化后, 每次引用, 引用环境的状态会跟随变化
+*/
 func hasEndFix(endFix string) func(fileName string) string {
 	s := endFix
 	return func(fileName string) string {
@@ -46,6 +55,18 @@ func day15Ex2() {
 	f := hasEndFix(".jpg")
 	fmt.Println(f("demo"))
 	fmt.Println(f("this is way.jpg"))
+	testFile()
+}
+
+func testFile() {
+	f, _ := os.Open("reviewDay15.go")
+	fmt.Println(f.Name())
+	f.Seek(3, 0)
+	buf := make([]byte, 10)
+	n, _ := f.Read(buf)
+	fmt.Println(n)
+	fmt.Println(string(buf))
+	defer f.Close()
 }
 
 func day15Ex1() {
