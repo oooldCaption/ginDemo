@@ -1,13 +1,40 @@
 package reviewGo
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 )
 
 func RunDay15() {
-	day15Ex2()
+	day15Ex4()
+}
+
+func day15Ex4() {
+	err := customErr("sd")
+	if err != nil {
+		panic(err)
+	}
+}
+func testError() {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Println("error = ", err)
+		}
+	}()
+	num1 := 10
+	num2 := 0
+	fmt.Println(num1 / num2)
+}
+
+func customErr(name string) (err error) {
+	if name == "config.ini" {
+		return nil
+	} else {
+		return errors.New("文件读取错误, 文件不存在")
+	}
 }
 
 func closure() func() string {
