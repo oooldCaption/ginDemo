@@ -1,6 +1,8 @@
 package model
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type smallCat struct {
 	Name  string
@@ -19,17 +21,6 @@ func NewSmallCat(name string, age int, width float32) *smallCat {
 		age:   age,
 		Width: width,
 	}
-}
-
-type Student struct {
-	Name  string
-	Age   string
-	ID    int
-	Score float32
-}
-
-func (stu *Student) Say() string {
-	return fmt.Sprintf("学生信息: \n 姓名: %v \n 年龄: %v \n 学号: %v  \n 分数: %v", stu.Name, stu.Age, stu.ID, stu.Score)
 }
 
 type Box struct {
@@ -103,4 +94,41 @@ func (card *BankAccount) QueryCard(psw string) {
 		return
 	}
 	fmt.Println("卡片余额:", card.Balance)
+}
+
+type Student struct {
+	Name  string
+	Age   string
+	ID    int
+	Score float32
+}
+
+// ShowInfo 展示学生信息
+func (stu *Student) ShowInfo() {
+	fmt.Printf("学生信息: \n 姓名: %v \n 年龄: %v \n 学号: %v  \n 分数: %v\n", stu.Name, stu.Age, stu.ID, stu.Score)
+}
+
+// SetScore 设置分数
+func (stu *Student) SetScore(score float32) {
+	stu.Score = score
+}
+
+func (stu *Student) Say() string {
+	return fmt.Sprintf("学生信息: \n 姓名: %v \n 年龄: %v \n 学号: %v  \n 分数: %v", stu.Name, stu.Age, stu.ID, stu.Score)
+}
+
+type Pupil struct {
+	Student
+}
+
+func (stu *Pupil) testing() {
+	fmt.Println("小学考试")
+}
+
+type Graduate struct {
+	Student
+}
+
+func (stu *Graduate) testing() {
+	fmt.Println("大学生考试")
 }

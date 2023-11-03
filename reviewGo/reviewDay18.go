@@ -6,7 +6,17 @@ import (
 )
 
 func RunDay18() {
-	day18Ex5()
+	day18Ex6()
+}
+
+func day18Ex6() {
+	stu := model.Pupil{}
+	stu.ID = 01
+	stu.Age = "23"
+	stu.Score = 32
+	stu.Name = "张三"
+	stu.SetScore(33)
+
 }
 
 func day18Ex5() {
