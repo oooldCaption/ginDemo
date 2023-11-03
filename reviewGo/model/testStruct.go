@@ -1,5 +1,7 @@
 package model
 
+import "fmt"
+
 type smallCat struct {
 	Name  string
 	age   int
@@ -17,4 +19,88 @@ func NewSmallCat(name string, age int, width float32) *smallCat {
 		age:   age,
 		Width: width,
 	}
+}
+
+type Student struct {
+	Name  string
+	Age   string
+	ID    int
+	Score float32
+}
+
+func (stu *Student) Say() string {
+	return fmt.Sprintf("学生信息: \n 姓名: %v \n 年龄: %v \n 学号: %v  \n 分数: %v", stu.Name, stu.Age, stu.ID, stu.Score)
+}
+
+type Box struct {
+	Long   float64
+	Height float64
+	Weight float64
+}
+
+func (box Box) BoxVolume() float64 {
+	return box.Weight * box.Long * box.Height
+}
+func (box Box) BoxArea() float64 {
+	return 2*box.Weight*box.Height + 2*box.Weight*box.Long + 2*box.Height*box.Long
+}
+
+type Visitor struct {
+	Name  string
+	Age   int
+	Score int
+}
+
+func (v *Visitor) GetTicketPrice() int {
+	if v.Age > 18 {
+		v.Score = 30
+	} else {
+		v.Score = 0
+	}
+	return v.Score
+}
+
+type BankAccount struct {
+	CardNum int
+	Psw     string
+	Balance float64
+}
+
+// SaveMoney 存钱业务
+func (card *BankAccount) SaveMoney(money float64, psw string) {
+	if psw != card.Psw {
+		fmt.Println("密码错误")
+		return
+	}
+	if money < 0 {
+		fmt.Println("输入格式错误")
+		return
+	}
+	fmt.Println("业务执行前卡片余额:", card.Balance)
+	card.Balance += money
+	fmt.Println("业务执行后卡片余额:", card.Balance)
+}
+
+// WithDraw 取钱业务
+func (card *BankAccount) WithDraw(money float64, psw string) {
+	if psw != card.Psw {
+		fmt.Println("密码错误")
+		return
+	}
+	if money < 0 {
+		fmt.Println("输入格式错误")
+		return
+	}
+	fmt.Println("业务执行前卡片余额:", card.Balance)
+	card.Balance -= money
+	fmt.Println("业务执行后卡片余额:", card.Balance)
+}
+
+// QueryCard 查询业务
+func (card *BankAccount) QueryCard(psw string) {
+	if psw != card.Psw {
+		fmt.Println("密码错误")
+		return
+	}
+	fmt.Println("卡片余额:", card.Balance)
 }
