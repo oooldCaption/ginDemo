@@ -1,9 +1,7 @@
 package main
 
-import (
-	"ginDemo/reviewGo"
-)
+import "ginDemo/reviewGo"
 
 func main() {
-	reviewGo.RunDay15()
+	reviewGo.RunDay18()
 }
