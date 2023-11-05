@@ -9,6 +9,10 @@ func RunDay18() {
 	day18Ex6()
 }
 
+func day18Ex7() {
+
+}
+
 func day18Ex6() {
 	stu := model.Pupil{}
 	stu.ID = 01
