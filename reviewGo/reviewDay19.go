@@ -1,11 +1,12 @@
 package reviewGo
 
 import (
+	"fmt"
 	"ginDemo/reviewGo/model"
 )
 
 func RunDay19() {
-	day19Ex2()
+	day19Ex3()
 }
 
 func day19Ex1() {
@@ -41,4 +42,14 @@ func day19Ex2() {
 	for _, hero := range heroList {
 		p.Play(hero)
 	}
+}
+
+var padingStr = "------------"
+
+// day19Ex3  简易版家庭记账本
+func day19Ex3() {
+	println(padingStr + "家庭记账系统" + padingStr)
+	println("请输入指令")
+	var cmd string
+	fmt.Scanf(cmd)
 }
