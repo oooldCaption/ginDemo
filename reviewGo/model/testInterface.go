@@ -136,5 +136,15 @@ func (c ChengYaoJin) Status() {
 type Player struct{}
 
 func (p Player) Play(hero CustomHero) {
-	hero.Attack()
+
+	switch hero.(type) {
+	case SuLie:
+		hero.Attack()
+	case LianPo:
+		hero.Attack()
+	case XiangYu:
+		hero.Attack()
+	case ChengYaoJin:
+		hero.Attack()
+	}
 }
