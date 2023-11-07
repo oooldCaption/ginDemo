@@ -132,3 +132,19 @@ type Graduate struct {
 func (stu *Graduate) testing() {
 	fmt.Println("大学生考试")
 }
+
+type HomeAccount struct {
+	Balance float64
+	History []TransactionHistory
+}
+
+const (
+	PayIn  string = "PayIn"
+	PayOut string = "PayOut"
+)
+
+type TransactionHistory struct {
+	Amount float64
+	Type   string
+	Remark string
+}

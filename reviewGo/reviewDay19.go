@@ -60,6 +60,18 @@ func day19Ex2() {
 	}
 }
 
+// test terminal support colorful
+func day19Ex4() {
+	cmd := exec.Command("tput", "colors")
+	output, err := cmd.Output()
+	if err == nil {
+		colors, _ := strconv.Atoi(strings.TrimSpace(string(output)))
+		if colors >= 256 {
+			fmt.Println("Your terminal supports 256 colors!")
+		}
+	}
+}
+
 const (
 	ColorReset  = "\033[0m"
 	ColorRed    = "\033[31m"
@@ -107,28 +119,87 @@ func inputCMD() {
 	}
 }
 
-func showAccountDetail() {
-
+var homeAccount = model.HomeAccount{
+	Balance: 1000,
+	History: make([]model.TransactionHistory, 0),
 }
-func addMoney() {
 
+func showAccountDetail() {
+	if len(homeAccount.History) > 0 {
+		fmt.Println(ColorGreen, "共有 ", len(homeAccount.History), " 条交易记录", ColorReset)
+		for i, history := range homeAccount.History {
+			if history.Type == model.PayIn {
+				fmt.Println(ColorYellow, i, " , 交易类型: 存入, 交易金额: ", history.Amount, ", 备注: ", history.Remark, ", 账户余额:", homeAccount.Balance)
+			} else {
+				fmt.Println(ColorRed, i, ", 交易类型: 支出, 交易金额: ", history.Amount, ", 备注: ", history.Remark, ", 账户余额:", homeAccount.Balance)
+			}
+		}
+	} else {
+		fmt.Println(ColorPurple, "暂无交易明细")
+	}
+	day19Ex3()
+}
+
+func addMoney() {
+	var amount string
+	var remark string
+	fmt.Println("请输入存入金额")
+	_, err := fmt.Scanln(&amount)
+	if err != nil {
+		panic("输入异常")
+		return
+	}
+
+	fmt.Println("请输入备注")
+	_, remarkErr := fmt.Scanln(&remark)
+
+	if remarkErr != nil {
+		panic("remarkErr输入异常")
+		return
+	}
+	f, _ := strconv.ParseFloat(amount, 64)
+	t := model.TransactionHistory{
+		Amount: f,
+		Type:   model.PayIn,
+		Remark: remark,
+	}
+	homeAccount.Balance = homeAccount.Balance + f
+	homeAccount.History = append(homeAccount.History, t)
+	fmt.Println(ColorGreen, "添加完毕")
+
+	day19Ex3()
 }
 
 func costMoney() {
+	var amount string
+	var remark string
+	fmt.Println("请输入支出金额")
+	_, err := fmt.Scanln(&amount)
+	if err != nil {
+		panic("输入异常")
+		return
+	}
 
+	fmt.Println("请输入备注")
+	_, remarkErr := fmt.Scanln(&remark)
+
+	if remarkErr != nil {
+		panic("remarkErr输入异常")
+		return
+	}
+	f, _ := strconv.ParseFloat(amount, 64)
+	t := model.TransactionHistory{
+		Amount: f,
+		Type:   model.PayOut,
+		Remark: remark,
+	}
+	homeAccount.Balance = homeAccount.Balance - f
+	homeAccount.History = append(homeAccount.History, t)
+	fmt.Println(ColorGreen, "添加完毕")
+
+	day19Ex3()
 }
+
 func exitAccount() {
 
-}
-
-// test terminal support colorful
-func day19Ex4() {
-	cmd := exec.Command("tput", "colors")
-	output, err := cmd.Output()
-	if err == nil {
-		colors, _ := strconv.Atoi(strings.TrimSpace(string(output)))
-		if colors >= 256 {
-			fmt.Println("Your terminal supports 256 colors!")
-		}
-	}
 }
