@@ -2,6 +2,7 @@ package reviewGo
 
 import (
 	"fmt"
+	"math"
 	"os/exec"
 	"runtime"
 	"sync"
@@ -9,9 +10,48 @@ import (
 )
 
 func RunDay21() {
-	day21Ex3()
+	day21Ex4()
 }
 
+func day21Ex5() {
+	ch := make(chan int)
+	go findPrime(0, 9000000, ch)
+	fmt.Println("程序开始时间:", time.Now())
+	for _ = range ch {
+		//fmt.Println(p)
+	}
+	fmt.Println("程序结束时间:", time.Now())
+}
+func findPrime(begin, end int, ch chan int) {
+	for i := begin; i < end; i++ {
+		if isPrime(i) {
+			ch <- i
+		}
+	}
+	close(ch)
+}
+
+func day21Ex4() {
+	fmt.Println("程序开始时间", time.Now())
+	for i := 0; i < 9000000; i++ {
+		if isPrime(i) {
+			//fmt.Println("素数:", i, time.Now())
+		}
+	}
+	fmt.Println("程序结束时间", time.Now())
+}
+
+func isPrime(n int) bool {
+	if n < 2 {
+		return false
+	}
+	for i := 2; i <= int(math.Sqrt(float64(n))); i++ {
+		if n%i == 0 {
+			return false
+		}
+	}
+	return true
+}
 func day21Ex1() {
 	go day21Ex2()
 	for i := 0; i < 10; i++ {
