@@ -10,7 +10,25 @@ import (
 )
 
 func RunDay21() {
-	day21Ex4()
+	day21Ex6()
+}
+
+func day21Ex6() {
+	ch := make(chan int)
+	go producer(ch)
+	go consumer(ch)
+	time.Sleep(time.Second * 2)
+}
+func producer(ch chan int) {
+	for i := 0; i < 5; i++ {
+		ch <- i
+	}
+	close(ch)
+}
+func consumer(ch chan int) {
+	for v := range ch {
+		fmt.Println("Consumed: ", v)
+	}
 }
 
 func day21Ex5() {

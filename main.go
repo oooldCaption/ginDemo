@@ -3,5 +3,5 @@ package main
 import "ginDemo/reviewGo"
 
 func main() {
-	reviewGo.RunDay21()
+	reviewGo.RunDay23()
 }
