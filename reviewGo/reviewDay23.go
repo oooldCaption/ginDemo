@@ -5,10 +5,21 @@ import (
 	"math"
 )
 
+func init() {
+	fmt.Println("init run")
+}
 func RunDay23() {
 	checkOddEven(22)
 	calSUmDivisibleByThree()
 	ninenine()
+	//deferFunc()
+}
+
+func deferFunc() {
+	fmt.Println("this is 1")
+	defer fmt.Println("this is 3")
+	defer fmt.Println("this is 2")
+
 }
 
 func checkOddEven(num int) {
