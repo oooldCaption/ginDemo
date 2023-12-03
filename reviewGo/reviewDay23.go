@@ -1,25 +1,47 @@
 package reviewGo
 
 import (
+	"errors"
 	"fmt"
 	"math"
 )
 
-func init() {
-	fmt.Println("init run")
-}
 func RunDay23() {
-	checkOddEven(22)
-	calSUmDivisibleByThree()
-	ninenine()
+	//checkOddEven(22)
+	//calSUmDivisibleByThree()
+	//ninenine()
 	//deferFunc()
+	//defineErr()
+	n, e := defineErrReturn(10)
+	fmt.Println(n, e)
+
+	m, p := defineErrReturn(-20)
+	fmt.Println(m, p)
+}
+
+func defineErrReturn(num int) (int, error) {
+	if num < 0 {
+		return 0, fmt.Errorf("num must > 0")
+	}
+	return num * num, nil
+}
+func defineErr() {
+	err := errors.New("this params is not define")
+	fmt.Println(err.Error())
 }
 
 func deferFunc() {
 	fmt.Println("this is 1")
 	defer fmt.Println("this is 3")
 	defer fmt.Println("this is 2")
+}
 
+func a(n int) int {
+	if n == 1 {
+		return 1
+	} else {
+		return n + a(n-1)
+	}
 }
 
 func checkOddEven(num int) {

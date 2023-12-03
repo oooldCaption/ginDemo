@@ -9,10 +9,6 @@ import (
 	"time"
 )
 
-func init() {
-	fmt.Println("code run day 21 init")
-}
-
 func RunDay21() {
 	day21Ex6()
 }
